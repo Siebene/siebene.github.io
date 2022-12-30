@@ -23,7 +23,7 @@
 
 /* dark scheme */
 :root[color-mode="dark"] {
-  --bg-body: #e6c7db;/*#2E3440;*/
+  --bg-body: #fbd5e2;/*#2E3440;*/
   --color-text-base: #000000;/*#C1C2C5;*/
   --color-text-a: #000000;/*#C1C2C5;*/
   --color-text-a-hover: #FFFFFF;
