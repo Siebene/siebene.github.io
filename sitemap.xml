@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://siebene.github.io/2023/01/09/RWCTF2023-WriteUps/</loc>
+    
+    <lastmod>2023-01-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://siebene.github.io/about/index.html</loc>
+    
+    <lastmod>2023-01-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://siebene.github.io/2022/12/30/HtmlUnit-RCE/</loc>
     
     <lastmod>2022-12-30</lastmod>
@@ -11,25 +29,7 @@
   </url>
   
   <url>
-    <loc>https://siebene.github.io/about/index.html</loc>
-    
-    <lastmod>2022-12-30</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://siebene.github.io/2022/11/15/RealPwn-PHP-UAF%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</loc>
-    
-    <lastmod>2022-12-30</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://siebene.github.io/friends/index.html</loc>
+    <loc>https://siebene.github.io/2022/11/15/RealPwn-PHP-UAF%E5%AD%B8%E7%BF%92%E8%A8%98%E9%8C%84/</loc>
     
     <lastmod>2022-12-30</lastmod>
     
@@ -65,7 +65,7 @@
   </url>
   
   <url>
-    <loc>https://siebene.github.io/2022/09/09/Java%E5%86%85%E5%AD%98%E9%A9%AC%E4%B8%80%E7%A7%8D%E6%9B%B4%E7%AE%80%E5%8D%95%E7%9A%84%E6%80%9D%E8%B7%AF/</loc>
+    <loc>https://siebene.github.io/2022/09/09/Java%E5%86%85%E5%AD%98%E6%9C%A8%E9%A6%AC%E6%9B%B4%E7%B0%A1%E5%96%AE%E7%9A%84%E6%96%B9%E5%BC%8F/</loc>
     
     <lastmod>2022-09-09</lastmod>
     
@@ -101,7 +101,7 @@
   </url>
   
   <url>
-    <loc>https://siebene.github.io/2021/11/22/Latte-SSTI-Payloads%E6%80%BB%E7%BB%93/</loc>
+    <loc>https://siebene.github.io/2021/11/22/Latte-SSTI-Payloads%E5%B0%8F%E7%B5%90/</loc>
     
     <lastmod>2022-05-31</lastmod>
     
@@ -130,7 +130,7 @@
 
   <url>
     <loc>https://siebene.github.io/</loc>
-    <lastmod>2022-12-30</lastmod>
+    <lastmod>2023-01-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -138,21 +138,21 @@
   
   <url>
     <loc>https://siebene.github.io/tags/WP/</loc>
-    <lastmod>2022-12-30</lastmod>
+    <lastmod>2023-01-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://siebene.github.io/tags/WEB/</loc>
-    <lastmod>2022-12-30</lastmod>
+    <lastmod>2023-01-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://siebene.github.io/tags/PWN/</loc>
-    <lastmod>2022-12-30</lastmod>
+    <lastmod>2023-01-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

@@ -28,30 +28,26 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
 
   <!-- hexo site css -->
-  
-<link rel="stylesheet" href="/css/color-scheme.css">
-<link rel="stylesheet" href="/css/base.css">
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css">
-<link rel="stylesheet" href="/css/github-markdown.css">
-<link rel="stylesheet" href="/css/highlight.css">
-<link rel="stylesheet" href="/css/comments.css">
-
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
-  
-    
-<link rel="stylesheet" href="/css/figcaption/mac-block.css">
-
   
 
   <!-- jquery3.3.1 -->
-  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
 
   <!-- fancybox -->
-  <link href="https://cdn.bootcss.com/fancybox/3.5.2/jquery.fancybox.min.css" rel="stylesheet">
-  <script async src="https://cdn.bootcss.com/fancybox/3.5.2/jquery.fancybox.min.js"></script>
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
   
 <script src="/js/fancybox.js"></script>
 
+
+  
 
   
 
@@ -62,15 +58,6 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-
-  <!-- clipboard -->
-  
-    <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
-    
-<script src="/js/codeCopy.js"></script>
-
-  
-
 <meta name="generator" content="Hexo 6.2.0"></head>
 
 
@@ -101,10 +88,6 @@
           <a href="/tags/">Tags</a>
         </li>
       
-        <li class="nav-item" data-path="/friends/">
-          <a href="/friends/">Friends</a>
-        </li>
-      
         <li class="nav-item" data-path="/about/">
           <a href="/about/">About</a>
         </li>
@@ -122,18 +105,35 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
-<!-- LaTex Display -->
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
-</script>
-<script>
-MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']]
-  }
-};
-</script>
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
 
 
 
@@ -144,10 +144,14 @@ MathJax = {
   
   <!-- 关于页 url形式：https://yoursite/about/ -->
     <div class="container about-index">
+      <div class="madoka-title">
+      	<p>奇蹟も、魔法も、あるんだよ</p>
+      </div>
       <div class="markdown-body">
         <p>流水爛賬回收站，廢話收容所</p>
+<p>目前資安系大三學生（2020-</p>
 <p>聯係我</p>
-<p>QQ: 2396424266</p>
+<p><a href="mailto:&#x73;&#105;&#101;&#x62;&#101;&#x6e;&#121;&#x61;&#111;&#x40;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#99;&#111;&#109;">&#x73;&#105;&#101;&#x62;&#101;&#x6e;&#121;&#x61;&#111;&#x40;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#99;&#111;&#109;</a></p>
 
       </div>
     </div>
@@ -172,7 +176,7 @@ MathJax = {
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/Siebene">Copyright © 2022 Siebene@</a>
+        <a target="_blank" rel="noopener" href="https://github.com/Siebene">Copyright © 2023 Siebene@</a>
         
     </div>
   
@@ -182,6 +186,7 @@ MathJax = {
         <a target="_blank" rel="noopener" href="https://github.com/Siebene">Theme by Oranges</a>
         
     </div>
+  
   
 </div>
 
