@@ -9,7 +9,7 @@
 
 @font-face {
   font-family: madoka;
-  src: url('/font/JKG-L_3.ttf');
+  src: url('/font/MadokaRunes-2.0.ttf');
 }
 html, body {
   background: url('/images/wallpaper-girls1.jpg') no-repeat;
@@ -99,7 +99,7 @@ a:hover {
 .friend-index .friend-list,
 .archives .post-list,
 .tag-index .tag-list,
-.about-index .markdown-body {
+.about-index .markdown-body .madoka-title{
   padding: 0 40px;
 }
 
@@ -235,7 +235,7 @@ a:hover {
 .madoka-title {
   font-family: madoka;
   -webkit-text-size-adjust: 100%;
-  font-size: 3rem;
+  font-size: 2rem;
   margin-bottom: 16px;
 }
 .madoka-title::before {
