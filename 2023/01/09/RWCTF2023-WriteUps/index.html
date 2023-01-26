@@ -154,9 +154,32 @@
           2023-01-09 01:47:02
         </span>
         
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/WP/" title="WP">
+                    #WP
+                  </a>
+                </span>
+                
+              </span>
+          
       </div>
       <div class="markdown-body">
-        
+        <h3 id="ChatUWU"><a href="#ChatUWU" class="headerlink" title="ChatUWU"></a>ChatUWU</h3><h3 id="The-Dark-Portal"><a href="#The-Dark-Portal" class="headerlink" title="The Dark Portal"></a>The Dark Portal</h3><h3 id="the-cult-of-8bit-賽後"><a href="#the-cult-of-8bit-賽後" class="headerlink" title="the_cult_of_8bit(賽後)"></a>the_cult_of_8bit(賽後)</h3><p>題目存在的漏洞</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> request = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"> request.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, <span class="variable constant_">POST_SERVER</span> + <span class="string">`/api/post/`</span> +</span><br><span class="line"><span class="built_in">encodeURIComponent</span>(id), <span class="literal">false</span>);</span><br><span class="line"> request.<span class="title function_">send</span>(<span class="literal">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span> (err) &#123; <span class="comment">// POST_SERVER is on another origin, so let&#x27;s use JSONP</span></span><br><span class="line"> <span class="keyword">let</span> script = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;script&quot;</span>);</span><br><span class="line"> script.<span class="property">src</span> = <span class="string">`<span class="subst">$&#123;POST_SERVER&#125;</span>/api/post/<span class="subst">$&#123;id&#125;</span>?callback=load_post`</span>;</span><br><span class="line"> <span class="variable language_">document</span>.<span class="property">head</span>.<span class="title function_">appendChild</span>(script);</span><br><span class="line"> <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 try catch 中可以設定src，只是express對於callback存在一些限制，也就能做到呼叫某些函式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;%_ user.todos.forEach(todo =&gt; &#123; _%&gt;</span><br><span class="line"> &lt;%_ if (todo.isURL) &#123; _%&gt;</span><br><span class="line"> &lt;li class=&quot;has-text-left&quot;&gt;&lt;a target=&quot;_blank&quot; href=&lt;%= todo.text</span><br><span class="line">%&gt;&gt;&lt;%= todo.text %&gt;&lt;/a&gt;&lt;/li&gt;</span><br><span class="line"> &lt;%_ &#125; else &#123; _%&gt;</span><br><span class="line"> &lt;li class=&quot;has-text-left&quot;&gt;&lt;%= todo.text %&gt;&lt;/li&gt;</span><br><span class="line"> &lt;%_ &#125; _%&gt;</span><br><span class="line">&lt;%_ &#125;); _%&gt;</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>https://x? onfocus=alert() id=x</code>即可加入一個<code>onfocus</code>，因此是self 1click</p>
+<p>題目同時也不允許admin加入todo，如果想要利用這點只能登入自己的賬號</p>
+<p>接下來題目的做法就有几種了，可以看</p>
+<p><a target="_blank" rel="noopener" href="https://blog.maple3142.net/2023/01/08/real-world-ctf-2023-writeups/">https://blog.maple3142.net/2023/01/08/real-world-ctf-2023-writeups/</a></p>
+<p><a target="_blank" rel="noopener" href="https://sh1yo.art/ctf/thecultof8bit/">https://sh1yo.art/ctf/thecultof8bit/</a></p>
+<p>不同的是maple使用了sync-xhr，非常的厲害</p>
+<h3 id="廢話收容所"><a href="#廢話收容所" class="headerlink" title="廢話收容所"></a>廢話收容所</h3>
       </div>
       
         <div class="prev-or-next">
@@ -174,14 +197,47 @@
               2023-01-09 01:47:02
             </span>
             
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/WP/" title="WP">
+                        #WP
+                      </a>
+                    </span>
+                    
+                  </span>
+              
           </div>
           <div class="post-foot-prev">
+            
+              <a href="/2023/01/26/Old-h2database-exploit%E5%AD%B8%E7%BF%92%E8%A8%98%E9%8C%84/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
             
           </div>
         </div>
       
     </div>
     
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#ChatUWU"><span class="toc-text">ChatUWU</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Dark-Portal"><span class="toc-text">The Dark Portal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#the-cult-of-8bit-%E8%B3%BD%E5%BE%8C"><span class="toc-text">the_cult_of_8bit(賽後)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%A2%E8%A9%B1%E6%94%B6%E5%AE%B9%E6%89%80"><span class="toc-text">廢話收容所</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
 
     
       <div class="comments-container">
