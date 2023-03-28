@@ -11,7 +11,7 @@
   
   <title>
     
-      Latte-SSTI-Payloads小結 
+      Latte-SSTI-Payloads 
       
       
       |
@@ -147,7 +147,7 @@
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
     <div class="post-content">
-      <div class="post-title">Latte-SSTI-Payloads小結</div>
+      <div class="post-title">Latte-SSTI-Payloads</div>
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
@@ -186,7 +186,7 @@
 
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*这是index.latte*/</span></span><br><span class="line">&lt;ul&gt;</span><br><span class="line">	&#123;=<span class="string">&quot;$&#123;eval(&#x27;echo \&#x27;pwn!\&#x27;;&#x27;)&#125;&quot;</span>&#125;	</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2021/11/22/Latte-SSTI-Payloads%E5%B0%8F%E7%B5%90/1.png" alt="1"></p>
+<p><img src="/2021/11/22/Latte-SSTI-Payloads/1.png" alt="1"></p>
 <p>调用栈张这样，光从名字来看应该还是挺清晰的</p>
 <p>主要看看buildClassBody方法</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">buildClassBody</span>(<span class="params"><span class="keyword">array</span> <span class="variable">$tokens</span></span>)</span>&#123;</span><br><span class="line">......</span><br><span class="line"><span class="variable">$macroHandlers</span> = <span class="keyword">new</span> <span class="title class_">\SplObjectStorage</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;macros) &#123;</span><br><span class="line">			<span class="title function_ invoke__">array_map</span>([<span class="variable">$macroHandlers</span>, <span class="string">&#x27;attach&#x27;</span>], <span class="title function_ invoke__">array_merge</span>(...<span class="title function_ invoke__">array_values</span>(<span class="variable">$this</span>-&gt;macros)));</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">foreach</span> (<span class="variable">$macroHandlers</span> <span class="keyword">as</span> <span class="variable">$handler</span>) &#123;</span><br><span class="line">			<span class="variable">$handler</span>-&gt;<span class="title function_ invoke__">initialize</span>(<span class="variable">$this</span>);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">foreach</span> (<span class="variable">$tokens</span> <span class="keyword">as</span> <span class="variable language_">$this</span>-&gt;position =&gt; <span class="variable">$token</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;inHead &amp;&amp; !(</span><br><span class="line">				<span class="variable">$token</span>-&gt;type === <span class="variable">$token</span>::<span class="variable constant_">COMMENT</span></span><br><span class="line">				|| <span class="variable">$token</span>-&gt;type === <span class="variable">$token</span>::<span class="variable constant_">MACRO_TAG</span> &amp;&amp; (<span class="variable language_">$this</span>-&gt;flags[<span class="variable">$token</span>-&gt;name] ?? <span class="literal">null</span>) &amp; <span class="title class_">Macro</span>::<span class="variable constant_">ALLOWED_IN_HEAD</span></span><br><span class="line">				|| <span class="variable">$token</span>-&gt;type === <span class="variable">$token</span>::<span class="variable constant_">TEXT</span> &amp;&amp; <span class="title function_ invoke__">trim</span>(<span class="variable">$token</span>-&gt;text) === <span class="string">&#x27;&#x27;</span></span><br><span class="line">			)) &#123;</span><br><span class="line">				<span class="variable language_">$this</span>-&gt;inHead = <span class="literal">false</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="variable language_">$this</span>-&gt;&#123;<span class="string">&quot;process<span class="subst">$token</span>-&gt;type&quot;</span>&#125;(<span class="variable">$token</span>);</span><br><span class="line">		&#125;</span><br><span class="line">......</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -208,7 +208,7 @@
 <p>在PhpWriter的sandboxPass方法中，会根据目前他拿到的tokens来做判断（虽然初始化PhpWriter的时候，传给他的tokens属性的变量叫tokenizer，实际上传过去的是是当时哪个节点对于分词器的一个包装）</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">....</span><br><span class="line"><span class="keyword">elseif</span> (<span class="variable">$tokens</span>-&gt;<span class="title function_ invoke__">isCurrent</span>(<span class="string">&#x27;$&#x27;</span>)) &#123; <span class="comment">// $$$var or $&#123;...&#125;</span></span><br><span class="line">				<span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">CompileException</span>(<span class="string">&#x27;Forbidden variable variables.&#x27;</span>);</span><br><span class="line">....</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2021/11/22/Latte-SSTI-Payloads%E5%B0%8F%E7%B5%90/2.png" alt="2"></p>
+<p><img src="/2021/11/22/Latte-SSTI-Payloads/2.png" alt="2"></p>
 <p>可以看到这里如果使用$tokens-&gt;isCurrent(‘$’)自然而然获取到的是<code>&quot;$&#123;eval(xxxxxx)&#125;&quot;</code>并不是一个<code>$</code>的token。</p>
 <p>所以就绕过了sandbox。</p>
 <p><strong>底层的原理也很简单，其实就是Latte的解析并没有与php一致。也就是说Latte认为这就是在输出一个字符串而已，但是最后生成的php文件中，这确实是一个符合语法规则的复杂变量。</strong></p>
@@ -564,12 +564,12 @@
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + Latte-SSTI-Payloads%E5%B0%8F%E7%B5%90 + '&url=' + https%3A%2F%2Fsiebene.github.io%2F2021%2F11%2F22%2FLatte-SSTI-Payloads%25E5%25B0%258F%25E7%25B5%2590%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + Latte-SSTI-Payloads + '&url=' + https%3A%2F%2Fsiebene.github.io%2F2021%2F11%2F22%2FLatte-SSTI-Payloads%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         
         
-          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://siebene.github.io/2021/11/22/Latte-SSTI-Payloads%E5%B0%8F%E7%B5%90/" target="_blank" title="Facebook">
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://siebene.github.io/2021/11/22/Latte-SSTI-Payloads/" target="_blank" title="Facebook">
             <i class="iconfont icon-facebooksquare"></i>
           </a>
         
