@@ -1019,19 +1019,19 @@ figure .pin-copy {
 
 /* light scheme */
 :root[color-mode="light"] {
-  --bg-body: #FFFFFF;
-  --color-text-base: #666;
-  --color-text-a: #666;
-  --color-text-a-hover: #000000;
-  --color-text-a-active: #000000;
-  --color-text-sub: #8e8e8e;
-  --color-text-md-title: #24292e;
-  --color-text-md-content: #24292e;
+  --bg-body: #000000;
+  --color-text-base: #FFFFFF;/*666*/
+  --color-text-a: #FFFFFF;/*666*/
+  --color-text-a-hover: #FFFFFF;/*000000*/
+  --color-text-a-active: #ffffff9b;/*000000*/
+  --color-text-sub: #8e8e8e;/*8e8e8e*/
+  --color-text-md-title: #a0a6ab;
+  --color-text-md-content: #d3d8dd;
   --color-text-md-code: #e96900;
   --bg-text-md-code: #f8f8f8;
   --bg-block-md-quote: #EEEEEE;
   --color-block-md-quote: #555555;
-  --color-divider-md-border: #5858581a;
+  --color-divider-md-border: #5858581a;/*5858581a*/
   --bg-content-search: rgb(255 255 255 / 60%);
   --bg-block-md-pre: #e6e6e6;
   --color-text-md-pre: #555555;
@@ -1042,14 +1042,14 @@ figure .pin-copy {
 
 /* dark scheme */
 :root[color-mode="dark"] {
-  --bg-body: #fbd5e2;/*#2E3440;*/
-  --color-text-base: #000000;/*#C1C2C5;*/
-  --color-text-a: #000000;/*#C1C2C5;*/
+  --bg-body: #fbd5e2;/*2E3440*/
+  --color-text-base: #000000;/*C1C2C5*/
+  --color-text-a: #000000;/*C1C2C5*/
   --color-text-a-hover: #FFFFFF;
-  --color-text-a-active: #000000/*#FFFFFF;*/
+  --color-text-a-active: #000000/*FFFFFF*/
   --color-text-sub: #8e8e8e;
   --color-text-md-title: #eceff4;
-  --color-text-md-content: #000000;/*#eceff4;*/
+  --color-text-md-content: #000000;/*eceff4*/
   --color-text-md-code: #e96900;
   --bg-text-md-code: #3b4252;
   --bg-block-md-quote: #3a4252;
@@ -1078,6 +1078,7 @@ figure .pin-copy {
 }
 html, body {
   background: url('/images/wallpaper-girls1.jpg') no-repeat;
+  background-size: cover;
   font-size: 10px;
   letter-spacing: 0.01rem;
   background-color: var(--bg-body);
@@ -1363,9 +1364,9 @@ a:hover {
   width: 89%;
 }
 
-.navbar ul li.active a {
+/* .navbar ul li.active a {
   color: var(--color-text-a-active);
-}
+} */
 
 .navbar ul li.active a::after {
   content: "";
@@ -1374,7 +1375,6 @@ a:hover {
   left: 5px;
   height: 6px;
   opacity: 0.55;
-  background-color: gray;
   width: 89%;
 }
 
@@ -2173,41 +2173,41 @@ a:hover {
   margin-left: 30px;
 }
 .v[data-class="v"] .vwrap .vheader .vinput:focus {
-  border-bottom-color: #fbd5e2 !important;
+  border-bottom-color: #808080 !important;
 }
 .v[data-class="v"] .vbtn:active,
 .v[data-class="v"] .vbtn:hover {
-  border-color: #fbd5e2 !important;
+  border-color: #808080 !important;
 }
 .v[data-class="v"] .vcards .vcard .vh .vmeta .vat {
-  color: #fbd5e2 !important;
+  color: #808080 !important;
 }
 .v[data-class="v"] a {
-  color: #fbd5e2 !important;
+  color: #808080 !important;
 }
 .fancybox-progress {
-  background: #fbd5e2 !important;
+  background: #808080 !important;
 }
 .markdown-body code {
-  color: #fbd5e2;
+  color: #808080;
 }
 .markdown-body a:hover {
-  border-bottom: 2px solid #fbd5e2;
+  border-bottom: 2px solid #808080;
 }
 .markdown-body blockquote {
-  border-color: #fbd5e2;
+  border-color: #808080;
 }
 .toc-link:hover::after {
-  background-color: #fbd5e2;
+  background-color: #808080;
 }
 .toc-link.active::after {
-  background-color: #fbd5e2;
+  background-color: #808080;
 }
 .navbar ul li a:hover::after {
-  background-color: #fbd5e2;
+  background-color: #808080;
 }
 .navbar ul li.active a::after {
-  background-color: #fbd5e2;
+  background-color: #808080;
 }
 .markdown-body h1 .headerlink::before,
 .markdown-body h2 .headerlink::before,
@@ -2215,5 +2215,5 @@ a:hover {
 .markdown-body h4 .headerlink::before,
 .markdown-body h5 .headerlink::before,
 .markdown-body h6 .headerlink::before {
-  color: #fbd5e2;
+  color: #808080;
 }

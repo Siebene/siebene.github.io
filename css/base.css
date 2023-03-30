@@ -13,6 +13,7 @@
 }
 html, body {
   background: url('/images/wallpaper-girls1.jpg') no-repeat;
+  background-size: cover;
   font-size: 10px;
   letter-spacing: 0.01rem;
   background-color: var(--bg-body);
@@ -298,9 +299,9 @@ a:hover {
   width: 89%;
 }
 
-.navbar ul li.active a {
+/* .navbar ul li.active a {
   color: var(--color-text-a-active);
-}
+} */
 
 .navbar ul li.active a::after {
   content: "";
@@ -309,7 +310,6 @@ a:hover {
   left: 5px;
   height: 6px;
   opacity: 0.55;
-  background-color: gray;
   width: 89%;
 }
 

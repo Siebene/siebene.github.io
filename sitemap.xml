@@ -4,7 +4,7 @@
   <url>
     <loc>https://siebene.github.io/2023/03/27/Learning-Exploit-of-NET-Remoting/</loc>
     
-    <lastmod>2023-03-28</lastmod>
+    <lastmod>2023-03-30</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -139,7 +139,7 @@
 
   <url>
     <loc>https://siebene.github.io/</loc>
-    <lastmod>2023-03-28</lastmod>
+    <lastmod>2023-03-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -147,21 +147,21 @@
   
   <url>
     <loc>https://siebene.github.io/tags/WP/</loc>
-    <lastmod>2023-03-28</lastmod>
+    <lastmod>2023-03-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://siebene.github.io/tags/WEB/</loc>
-    <lastmod>2023-03-28</lastmod>
+    <lastmod>2023-03-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://siebene.github.io/tags/PWN/</loc>
-    <lastmod>2023-03-28</lastmod>
+    <lastmod>2023-03-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
