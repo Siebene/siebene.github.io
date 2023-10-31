@@ -385,7 +385,9 @@ figure .pin-copy {
   vertical-align: text-top;
   fill: currentColor;
 }
-
+.markdown-body {
+    background-color: #ff3599;
+}
 .markdown-body a {
   background-color: transparent;
 }
@@ -987,36 +989,6 @@ figure .pin-copy {
   border-bottom-color: #eee;
 }
 
-/* valine comments style sheets */
-
-.comments-container {
-  color: var(--color-text-a);
-}
-
-.comments-container .vwrap {
-  color: var(--color-text-a);
-}
-
-.vheader input::-webkit-input-placeholder, .vheader input {
-  color: var(--color-text-a) !important;
-}
-
-.vedit textarea::-webkit-input-placeholder, .vedit textarea {
-  color: var(--color-text-a) !important;
-}
-
-.vicon {
-  fill: var(--color-text-a) !important;
-}
-
-.vbtn {
-  color: var(--color-text-a) !important;
-}
-
-.vcontent p {
-  color: var(--color-text-a) !important;
-}
-
 /* light scheme */
 :root {
   --bg-body: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(236,207,232,0.9921218487394958) 34%, rgba(0,212,255,1) 100%);
@@ -1054,12 +1026,6 @@ figure .pin-copy {
   background-color: #808080;
 }
 .toc-link.active::after {
-  background-color: #808080;
-}
-.navbar ul li a:hover::after {
-  background-color: #808080;
-}
-.navbar ul li.active a::after {
   background-color: #808080;
 }
 .markdown-body h1 .headerlink::before,

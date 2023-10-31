@@ -1276,7 +1276,7 @@ body {
     font-family: "Roboto","Noto Sans JP","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 100%;
     line-height: 1.5rem;
-    color: #000000;
+    color: #000;
     background-color: #ff3599;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale
@@ -1707,12 +1707,12 @@ h5,.h5 {
     /* max-width:1040px; */
     /* margin:0 auto; */
     /* font-size:2rem; */
-    /* font-weight:700; */
+    font-weight:700;
     /* line-height:2.75rem; */
     /* -webkit-transition:.1s ease-in-out; */
     -o-transition: .1s ease-in-out;
     transition: .1s ease-in-out;
-    color: #000000;
+    color: #000;
 }
 
 /* line 492, library/scss/breakpoints/_base.scss */

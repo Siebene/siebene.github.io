@@ -133,7 +133,9 @@
   vertical-align: text-top;
   fill: currentColor;
 }
-
+.markdown-body {
+    background-color: #ff3599;
+}
 .markdown-body a {
   background-color: transparent;
 }
