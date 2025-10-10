@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://siebene.github.io/about/index.html</loc>
+    <loc>https://siebene.github.io/2023/03/27/Learning-Exploit-of-NET-Remoting/</loc>
     
     <lastmod>2025-10-10</lastmod>
     
@@ -11,9 +11,9 @@
   </url>
   
   <url>
-    <loc>https://siebene.github.io/2023/03/27/Learning-Exploit-of-NET-Remoting/</loc>
+    <loc>https://siebene.github.io/about/index.html</loc>
     
-    <lastmod>2024-08-26</lastmod>
+    <lastmod>2025-10-10</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

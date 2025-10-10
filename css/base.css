@@ -1209,7 +1209,7 @@ section.tmpBox {
 .main #about {
     color: #4d4d4d;
     font-size: 13px;
-    margin: 0 auto;
+    margin: 0 0;
     padding: 22px 0;
     text-align: left;
     width: 610px;

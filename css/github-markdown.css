@@ -419,6 +419,7 @@
 
 .markdown-body blockquote {
   /*margin: 3rem 0;*/
+  --bg-block-md-quote: #d0d0c9;
   padding: 15px;
   color: var(--color-block-md-quote);
   border-left: 0.25em solid var(--color-block-md-quote);
